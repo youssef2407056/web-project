@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin · Noir Perfume</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../User/CSS/shop.css">
+  <link rel="stylesheet" href="../CSS/admin.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a href="../../home.html" class="logo">Noir perfume</a>
+    <ul>
+      <li><a href="../../home.html">Home</a></li>
+      <li><a href="../../User/Html/Shopall.html">Shop</a></li>
+      <li><a href="../../User/Html/login.html">Customer sign in</a></li>
+    </ul>
+  </nav>
+
+  <main class="admin-page">
+    <div class="admin-login" id="adminLogin">
+      <h1 class="admin-staff-title">Staff sign-in</h1>
+      <p class="admin-helper-text">Use the staff password for this browser. Default: <strong>admin123</strong> (change after first login).</p>
+      <form id="adminLoginForm">
+        <input type="password" id="adminPassword" placeholder="Password" required autocomplete="current-password">
+        <button type="submit">Enter dashboard</button>
+      </form>
+      <form id="adminSetPasswordForm" class="admin-set-password-panel">
+        <p class="admin-form-hint">Set new staff password (optional)</p>
+        <input type="password" id="newAdminPwd" placeholder="New password" minlength="4" autocomplete="new-password">
+        <button type="submit">Save password</button>
+      </form>
+    </div>
+
+    <div id="adminDash" class="admin-dash">
+      <div class="admin-dash-header">
+        <h1 class="admin-page-title">Staff dashboard</h1>
+        <button type="button" id="adminLogout" class="admin-btn-outline">Log out</button>
+      </div>
+
+      <div class="admin-tabs" role="tablist">
+        <button type="button" class="admin-tab is-active" data-tab="users" role="tab" aria-selected="true">Users</button>
+        <button type="button" class="admin-tab" data-tab="orders" role="tab">Orders</button>
+        <button type="button" class="admin-tab" data-tab="products" role="tab">Products</button>
+      </div>
+
+      <section class="admin-panel is-active" id="panel-users" role="tabpanel">
+        <p class="admin-muted">Customers who registered on this device (demo: local storage).</p>
+        <table class="admin-table" id="adminUsersTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Joined</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <section class="admin-panel" id="panel-orders" role="tabpanel" hidden>
+        <p class="admin-muted">Orders saved when customers complete checkout on this browser.</p>
+        <table class="admin-table" id="adminOrdersTable">
+          <thead>
+            <tr>
+              <th>Order</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Customer</th>
+              <th>Total items</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <section class="admin-panel" id="panel-products" role="tabpanel" hidden>
+        <p class="admin-muted">Add or edit products. Changes apply across Shop pages and product detail pages. Image path is relative to the User folder (e.g. <code>../Images/photo.jpg</code> from Html pages).</p>
+
+        <div class="admin-toolbar">
+          <button type="button" class="admin-btn-primary" id="btnShowProductForm">+ Add product</button>
+          <button type="button" class="admin-btn-outline" id="btnRefreshProducts">Refresh list</button>
+        </div>
+
+        <form id="adminProductForm" class="admin-product-form" style="display:none">
+          <input type="hidden" id="pfEditId" value="">
+          <input type="hidden" id="pfMode" value="add">
+
+          <div class="admin-form-grid">
+            <label>Product name <input type="text" id="pfName" required placeholder="Eau de Parfum X"></label>
+            <label>Image path <input type="text" id="pfImage" required placeholder="../Images/your-image.jpg"></label>
+            <label>Category
+              <select id="pfCategory" required>
+                <option value="men">Men</option>
+                <option value="women">Women</option>
+                <option value="unisex">Unisex</option>
+              </select>
+            </label>
+            <label>Subtitle (card line) <input type="text" id="pfLine" placeholder="Men Eau de Parfum"></label>
+            <label class="admin-span-2">Description <textarea id="pfDesc" rows="3" placeholder="Full description for product page"></textarea></label>
+            <label>Currency <input type="text" id="pfCurrency" value="LE"></label>
+            <label>Base size (ml) <input type="number" id="pfBaseMl" value="100" min="1"></label>
+            <label>Compare-at price (optional) <input type="number" id="pfCompare" placeholder="for strikethrough" step="1"></label>
+          </div>
+
+          <div class="admin-sizes-block">
+            <h3>Sizes &amp; prices</h3>
+            <p class="admin-muted small">Set each bottle size, LE price, and whether it is in stock.</p>
+            <table class="admin-table admin-sizes-table" id="pfSizesTable">
+              <thead>
+                <tr><th>ml</th><th>Price (LE)</th><th>In stock</th><th></th></tr>
+              </thead>
+              <tbody id="pfSizesBody"></tbody>
+            </table>
+            <button type="button" class="admin-btn-outline" id="pfAddSizeRow">+ Add size row</button>
+          </div>
+
+          <div class="admin-form-actions">
+            <button type="submit" class="admin-btn-primary" id="pfSave">Save product</button>
+            <button type="button" class="admin-btn-outline" id="pfCancel">Cancel</button>
+          </div>
+        </form>
+
+        <h2 class="admin-subtitle">Catalog</h2>
+        <table class="admin-table" id="adminProductsTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Type</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <h2 class="admin-subtitle">Hidden products</h2>
+        <p class="admin-muted small">Removed from the storefront but can be restored.</p>
+        <table class="admin-table" id="adminRemovedTable">
+          <thead>
+            <tr><th>Product ID</th><th></th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </div>
+  </main>
+
+  <div class="admin-modal" id="orderEditModal" aria-hidden="true">
+    <div class="admin-modal__backdrop" data-close-modal></div>
+    <div class="admin-modal__dialog" role="dialog" aria-labelledby="orderEditTitle">
+      <h2 id="orderEditTitle">Edit order</h2>
+      <input type="hidden" id="orderEditIndex" value="">
+      <div class="admin-form-grid">
+        <label>Status
+          <select id="orderStatus">
+            <option value="pending">Pending</option>
+            <option value="processing">Processing</option>
+            <option value="shipped">Shipped</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </label>
+        <label>Customer name <input type="text" id="orderCustName"></label>
+        <label>Email <input type="email" id="orderCustEmail"></label>
+        <label>Phone <input type="text" id="orderCustPhone"></label>
+        <label class="admin-span-2">Address <textarea id="orderCustAddress" rows="2"></textarea></label>
+        <label>Payment <input type="text" id="orderPayment" readonly></label>
+        <label>Discount % <input type="number" id="orderDiscount" min="0" max="100"></label>
+      </div>
+      <div class="admin-order-items-wrap">
+        <p class="admin-muted small" style="margin-bottom:0.35rem">Order items</p>
+        <div id="orderItemsDisplay" class="admin-order-items"></div>
+      </div>
+      <div class="admin-form-actions">
+        <button type="button" class="admin-btn-primary" id="orderSaveBtn">Save order</button>
+        <button type="button" class="admin-btn-outline" data-close-modal>Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../User/Js/products-catalog.js"></script>
+  <script src="../../User/Js/cookie-consent.js"></script>
+  <script src="../Js/admin.js"></script>
+</body>
+</html>
