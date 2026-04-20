@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Noir Perfume · Women's Collection</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../CSS/shop.css">
+  <link rel="stylesheet" href="../CSS/shop-filters.css">
+</head>
+<body data-shop-kind="women">
+
+<nav class="navbar">
+  <a href="../../home.html" class="logo">Noir perfume</a>
+  <ul>
+    <li><a href="../../home.html">Home</a></li>
+    <li class="nav-item-shop">
+      <a href="Shopall.html">Shop</a>
+      <div class="dropdown-menu dropdown-menu--horizontal">
+        <a href="Shopall.html">Shop all</a>
+        <a href="Men.html">For men</a>
+        <a href="Women.html">For women</a>
+        <a href="Unisex.html">Unisex</a>
+      </div>
+    </li>
+    <li><a href="../../home.html#flash-sale">Flash sale</a></li>
+    <li><a href="aboutus.html">About us</a></li>
+    <li><a href="contactus.html">Contact</a></li>
+  </ul>
+  <div class="icons">
+    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+    <a href="login.html" class="nav-icon-link" aria-label="Account"><i class="fa-regular fa-user"></i></a>
+    <span id="fav-drawer-trigger" class="nav-icon-link nav-fav-trigger" role="button" tabindex="0" aria-label="Favorites"><i class="fa-regular fa-heart"></i></span>
+    <i class="fa-solid fa-bag-shopping" onclick="toggleCart()" style="cursor: pointer; position: relative;" role="button" tabindex="0" aria-label="Cart">
+      <span id="cart-count" style="position: absolute; top: -10px; right: -12px; background: #b76e79; color: white; font-size: 11px; border-radius: 50%; padding: 2px 6px; min-width: 18px; text-align: center;">0</span>
+    </i>
+  </div>
+</nav>
+
+<div class="shop-layout">
+  <aside class="filters-sidebar">
+    <h3>Filters</h3>
+    <div class="filter-group filter-group--collection">
+      <h4 class="filter-section-label">Shop by</h4>
+      <div class="filter-collection" role="group" aria-label="Shop by category">
+        <label class="filter-radio"><input type="radio" name="collectionFilter" value="all"> All shop</label>
+        <label class="filter-radio"><input type="radio" name="collectionFilter" value="men"> Men</label>
+        <label class="filter-radio"><input type="radio" name="collectionFilter" value="women" checked> Women</label>
+        <label class="filter-radio"><input type="radio" name="collectionFilter" value="unisex"> Unisex</label>
+      </div>
+    </div>
+    <div class="filter-group">
+      <h4 class="filter-section-label">Search</h4>
+      <input type="text" id="searchInput" placeholder="Search perfumes…">
+    </div>
+    <div class="filter-group">
+      <h4 class="filter-section-label">Price</h4>
+      <div class="price-range">
+        <input type="number" id="priceMin" placeholder="Min" step="100">
+        <input type="number" id="priceMax" placeholder="Max" step="100">
+      </div>
+    </div>
+    <div class="filter-group">
+      <h4 class="filter-section-label">Availability</h4>
+      <label><input type="checkbox" id="inStock"> In stock only</label>
+    </div>
+    <button type="button" class="clear-filters" onclick="resetFilters()">Clear filters</button>
+  </aside>
+  
+  <div class="products-area">
+    <div class="results-count" id="resultsCount"></div>
+    <div class="products-grid">
+      <div class="card">
+        <div class="image"><img src="../Images/boss1.forwomen.jpg" alt="El Mejor Perfume Boss"></div>
+        <h3>El Mejor Perfume Boss</h3>
+        <p>Women EDP 50ML</p>
+        <span class="price">$1,000.00</span>
+        <button onclick="addToCart('El Mejor Perfume Boss',1000)">Add to Cart</button>
+      </div>
+      <div class="card">
+        <div class="image"><img src="../Images/boss2.forwomen.jpg" alt="Boss The Scent Elixir for Her"></div>
+        <h3>Boss The Scent Elixir for Her</h3>
+        <p>Women EDP 100ML</p>
+        <span class="price">$1,000.00</span>
+        <button onclick="addToCart('Boss The Scent Elixir for Her',1000)">Add to Cart</button>
+      </div>
+      <div class="card">
+        <div class="image"><img src="../Images/boss3.forwomen.jpg" alt="MA VIE pour Femme Boss"></div>
+        <h3>MA VIE pour Femme Boss</h3>
+        <p>Women EDP 300ML</p>
+        <span class="price">$1,500.00</span>
+        <button onclick="addToCart('MA VIE pour Femme Boss',1500)">Add to Cart</button>
+      </div>
+      <div class="card">
+        <div class="image"><img src="../Images/dior1forwomen.jpg" alt="Miss Dior Blooming Bouquet"></div>
+        <h3>Miss Dior Blooming Bouquet</h3>
+        <p>Women EDP 250ML</p>
+        <span class="price">$1,200.00</span>
+        <button onclick="addToCart('Miss Dior Blooming Bouquet',1200)">Add to Cart</button>
+      </div>
+      <div class="card">
+        <div class="image"><img src="../Images/dior222forwemen.jpg" alt="Eau de Parfum Jasmin and Peach"></div>
+        <h3>Eau de Parfum Jasmin & Peach</h3>
+        <p>Women EDP 300ML</p>
+        <span class="price">$3,000.00</span>
+        <button onclick="addToCart('Eau de Parfum Christian Dior',3000)">Add to Cart</button>
+      </div>
+      <div class="card">
+        <div class="image"><img src="../Images/dior3forwomen.jpg" alt="Hypnotic Poison Dior"></div>
+        <h3>Hypnotic Poison Dior</h3>
+        <p>Women EDP 100ML</p>
+        <span class="price">$1,900.00</span>
+        <button onclick="addToCart('Hypnotic Poison Dior',1900)">Add to Cart</button>
+      </div>
+      <div class="card">
+        <div class="image"><img src="../Images/chanel1forwomen.jpg" alt="EAU Splendide Chanel"></div>
+        <h3>EAU Splendide Chanel</h3>
+        <p>Women EDP 200ML</p>
+        <span class="price">$1,500.00</span>
+        <button onclick="addToCart('EAU Splendide Chanel',1500)">Add to Cart</button>
+      </div>
+      <div class="card">
+        <div class="image"><img src="../Images/chanel2forwomen.jpg" alt="GABRIELLE Chanel"></div>
+        <h3>GABRIELLE Chanel</h3>
+        <p>Women EDP 100ML</p>
+        <span class="price">$3,200.00</span>
+        <button onclick="addToCart('GABRIELLE Chanel',3200)">Add to Cart</button>
+      </div>
+      <div class="card">
+        <div class="image"><img src="../Images/chanel3forwomen.jpg" alt="COCO Noir Chanel"></div>
+        <h3>COCO Noir Chanel</h3>
+        <p>Women EDP 300ML</p>
+        <span class="price">$2,000.00</span>
+        <button onclick="addToCart('COCO Noir Chanel',2000)">Add to Cart</button>
+      </div>
+      <div class="card">
+        <div class="image"><img src="../Images/chanel4forwomen.jpg" alt="N°19 Chanel"></div>
+        <h3>N°19 Chanel</h3>
+        <p>Women EDP 50ML</p>
+        <span class="price">$2,200.00</span>
+        <button onclick="addToCart('N°19 Chanel',2200)">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="global-search" id="globalSearchPanel" aria-hidden="true">
+  <div class="global-search__dialog" role="dialog" aria-modal="true" aria-labelledby="global-search-title">
+    <div class="global-search__head">
+      <h2 id="global-search-title">Search</h2>
+      <button type="button" class="global-search__close" id="globalSearchClose" aria-label="Close search">✕</button>
+    </div>
+    <label class="visually-hidden" for="globalSearchInput">Search products</label>
+    <input type="search" id="globalSearchInput" class="global-search__input" placeholder="Search perfumes…" autocomplete="off">
+    <ul class="global-search__results" id="globalSearchResults"></ul>
+  </div>
+</div>
+
+<div class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-header"><h2>Your Cart</h2><button class="close-btn" onclick="toggleCart()">✕</button></div>
+  <div class="cart-items" id="cart-items"><p class="empty-msg">Your cart is empty.</p></div>
+  <div class="cart-footer" id="cart-footer" style="display:none;">
+    <div class="cart-total">Total: <span id="cart-total">0</span></div>
+    <button type="button" class="checkout-btn">Checkout</button>
+  </div>
+</div>
+<div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+
+<script src="../Js/products-catalog.js"></script>
+<script src="../Js/shop.js"></script>
+<script src="../Js/quick-view-modal.js"></script>
+<script src="../Js/shop-filters.js"></script>
+<script src="../Js/nav-search.js"></script>
+<script src="../Js/cookie-consent.js"></script>
+</body>
+</html>
