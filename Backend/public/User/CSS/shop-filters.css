@@ -1,0 +1,650 @@
+/* ============================================================
+   Shop Filters — correct layout for all breakpoints
+   Desktop : narrow sticky sidebar (300px) beside products grid
+   Tablet  : full-width vertical sidebar above grid (601-1100px)
+   Mobile  : horizontal pill bar that drops floating panels (≤480px)
+   ============================================================ */
+
+/* ─── Layout shell ─────────────────────────────────────────── */
+.shop-layout {
+  display: flex;
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  padding: clamp(1.25rem, 3vw, 2.5rem) clamp(1rem, 4vw, 3.5rem);
+  max-width: 1600px;
+  margin: 0 auto;
+  align-items: flex-start;
+}
+
+/* ─── Sidebar — desktop (≥481px): narrow panel ─────────────── */
+.filters-sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  position: sticky;
+  top: calc(var(--nav-h, 72px) + 8px);
+  align-self: flex-start;
+  max-height: calc(100vh - var(--nav-h, 72px) - 16px);
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 2px;
+  padding: 0;
+}
+
+/* "FILTERS" title bar */
+.filters-sidebar__title,
+.filters-sidebar h3.filters-sidebar__title {
+  font-family: var(--font-ui, 'DM Sans', system-ui, sans-serif);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  margin: 0;
+  padding: 1.1rem 1.2rem 0.9rem;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+/* ─── Filter section blocks ─────────────────────────────────── */
+/* Each section is a <details> that acts as a collapsible on mobile
+   and is always-expanded (non-interactive toggle) on desktop/tablet */
+
+.filter-dropdown {
+  margin: 0;
+  border-bottom: 1px solid #eee;
+  /* desktop: padding wraps the whole section */
+  padding: 1rem 1.2rem 1.1rem;
+}
+
+.filter-dropdown:last-of-type {
+  border-bottom: none;
+}
+
+/* Section heading (the <summary>) */
+.filter-dropdown__toggle {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-family: var(--font-ui, 'DM Sans', system-ui, sans-serif);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  margin: 0 0 0.8rem;
+  padding: 0;
+  /* desktop: heading is decorative, not interactive */
+  pointer-events: none;
+  cursor: default;
+  user-select: none;
+}
+
+/* Hide native <details> marker */
+.filter-dropdown__toggle::-webkit-details-marker { display: none; }
+.filter-dropdown__toggle::marker { display: none; }
+
+/* Hide the chevron on desktop — sections are always open */
+.filter-dropdown__arrow {
+  display: none;
+}
+
+/* Section content */
+.filter-dropdown__panel {
+  padding: 0;
+  /* always visible on desktop / tablet */
+  display: block;
+}
+
+/* Guarantee panels stay visible even when <details> loses [open] */
+.filter-dropdown .filter-dropdown__panel,
+.filter-dropdown[open] .filter-dropdown__panel {
+  display: block;
+}
+
+/* ─── Category radio list ───────────────────────────────────── */
+/* On desktop/tablet: show radios, hide link-list */
+.filter-collection--links  { display: none; }
+.filter-collection--radios { display: flex; flex-direction: column; }
+
+.filter-collection {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.filter-nav-link {
+  display: block;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-family: var(--font-ui, 'DM Sans', system-ui, sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #333;
+  text-decoration: none;
+}
+.filter-nav-link:last-child { border-bottom: none; }
+.filter-nav-link:hover,
+.filter-nav-link:focus-visible { color: #b76e79; }
+
+/* Radio row */
+.filter-radio {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: var(--font-ui, 'DM Sans', system-ui, sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  padding: 0.45rem 0;
+  margin: 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.filter-radio:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.filter-radio:hover { color: #b76e79; }
+.filter-radio input[type="radio"] {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  flex-shrink: 0;
+  accent-color: #1a1a1a;
+}
+
+/* ─── Availability checkbox ─────────────────────────────────── */
+/* Plain row — no box, no background, no space-between */
+.filter-check-label {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  margin: 0;
+  padding: 0.35rem 0;
+  font-family: var(--font-ui, 'DM Sans', system-ui, sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+}
+.filter-check-label input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  flex-shrink: 0;
+  accent-color: #1a1a1a;
+  cursor: pointer;
+}
+
+/* ─── Search input ──────────────────────────────────────────── */
+.filter-group input[type="text"]#searchInput,
+.filter-group input#searchInput {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 2px;
+  font-family: var(--font-ui, 'DM Sans', system-ui, sans-serif);
+  font-size: 0.875rem;
+  color: #1a1a1a;
+  background: #fff;
+  transition: border-color 0.2s;
+}
+.filter-group input#searchInput:focus {
+  outline: none;
+  border-color: #1a1a1a;
+}
+.filter-group input#searchInput::placeholder { color: #8a8684; }
+
+/* ─── Price range ───────────────────────────────────────────── */
+.price-range {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+}
+/* "LE" currency label above inputs */
+.price-range::before {
+  content: 'LE';
+  flex: 0 0 100%;
+  font-family: var(--font-ui, 'DM Sans', system-ui, sans-serif);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #888;
+  margin-bottom: 0.1rem;
+}
+.price-range input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.55rem 0.6rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 2px;
+  font-family: var(--font-ui, 'DM Sans', system-ui, sans-serif);
+  font-size: 0.8125rem;
+  color: #1a1a1a;
+  background: #fff;
+}
+.price-range input:focus {
+  outline: none;
+  border-color: #1a1a1a;
+}
+
+/* ─── Sort select ───────────────────────────────────────────── */
+.filter-group select {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 2px;
+  font-family: var(--font-ui, 'DM Sans', system-ui, sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #1a1a1a;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23333' d='M1 1.5L6 6l5-4.5'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
+  background-size: 10px 6px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.filter-group select:focus {
+  outline: none;
+  border-color: #1a1a1a;
+}
+
+/* ─── Clear Filters button ──────────────────────────────────── */
+.clear-filters {
+  width: calc(100% - 2.4rem);
+  margin: 0.4rem 1.2rem 1.2rem;
+  padding: 0.7rem 1rem;
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  font-family: var(--font-ui, 'DM Sans', system-ui, sans-serif);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: background 0.2s;
+}
+.clear-filters:hover { background: #b76e79; }
+
+/* ─── Products area ─────────────────────────────────────────── */
+.products-area {
+  flex: 1;
+  min-width: 0;
+}
+
+.results-count {
+  font-family: var(--font-ui, 'DM Sans', system-ui, sans-serif);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #555;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+/* ─── Product grid ──────────────────────────────────────────── */
+.products-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: flex-start;
+}
+
+.products-grid .card {
+  width: calc(33.33% - 17px);
+  min-width: 220px;
+  background: white;
+  border-radius: 2px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: none;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  border: 1px solid #eee;
+}
+
+.products-grid .card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.06);
+}
+
+.products-grid .image img {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.products-grid .card h3 {
+  margin: 12px 0 4px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.products-grid .card p {
+  color: #777;
+  font-size: 13px;
+}
+
+.products-grid .price {
+  display: block;
+  margin-top: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #b76e79;
+}
+
+.products-grid button {
+  margin-top: 16px;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 2px;
+  background-color: #1a1a1a;
+  color: white;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.products-grid button:hover { background-color: #b76e79; transform: none; }
+.products-grid button.btn-add-cart--out:hover { background-color: #1a1a1a; }
+
+/* legacy search-box (if used anywhere else) */
+.search-box { margin-bottom: 24px; }
+.search-box input {
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 2px;
+  border: 1px solid #ddd;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.search-box input:focus { border-color: #b76e79; }
+
+/* ─── Tablet (601px – 1100px): full-width vertical sidebar ──── */
+@media (max-width: 1100px) {
+  .shop-layout {
+    flex-direction: column;
+    padding: 1.25rem 1rem;
+  }
+
+  .filters-sidebar {
+    position: static;
+    width: 100%;
+    max-height: none;
+    top: auto;
+    /* keep the border / card look */
+    border: 1px solid #e8e8e8;
+    border-radius: 2px;
+  }
+
+  .products-grid .card {
+    width: calc(50% - 13px);
+  }
+}
+
+@media (max-width: 600px) {
+  .products-grid .card {
+    width: 100%;
+  }
+}
+
+/* ─── Mobile (≤480px): horizontal sticky filter bar ─────────── */
+/* Sidebar becomes a pill row of tap-to-open dropdown buttons.
+   Each filter section is a <details>; tapping the toggle shows a
+   fixed floating panel below the bar. Only one panel open at a time.
+   JS in shop-filters.js handles the mutual-exclusion + backdrop. */
+
+@media (max-width: 480px) {
+
+  /* ── Layout ── */
+  .shop-layout {
+    flex-direction: column;
+    padding: 0;
+    gap: 0;
+    overflow: visible;
+  }
+
+  /* ── Filter bar (sticky horizontal strip) ── */
+  .filters-sidebar {
+    position: sticky;
+    top: var(--nav-h, 56px);
+    z-index: 2060;
+    width: 100%;
+    max-height: none;
+    /* row of filter pill buttons */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    /* flat strip styling */
+    border: none;
+    border-bottom: 1px solid #e8e8e8;
+    border-radius: 0;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+  .filters-sidebar::-webkit-scrollbar { display: none; }
+
+  /* Hide title and clear-filters button — not needed in bar mode */
+  .filters-sidebar__title,
+  .clear-filters {
+    display: none;
+  }
+
+  /* On mobile show the radio buttons (same as desktop — links div no longer exists) */
+  .filter-collection--links  { display: none !important; }
+  .filter-collection--radios { display: flex !important; flex-direction: column; }
+
+  /* ── Each filter section = a pill button ── */
+  .filter-dropdown {
+    flex: 0 0 auto;
+    position: relative;
+    border-bottom: none;
+    border-right: 1px solid #eee;
+    padding: 0;
+    z-index: 2060;
+    /* panels always hidden until [open] */
+  }
+  .filter-dropdown:last-of-type {
+    border-right: none;
+  }
+
+  /* The toggle IS interactive on mobile (restore events) */
+  .filter-dropdown__toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0 0.85rem;
+    margin: 0;
+    height: 44px;
+    min-width: 0;
+    white-space: nowrap;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    font-family: var(--font-ui, 'DM Sans', system-ui, sans-serif);
+    pointer-events: auto;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    z-index: 2061;
+  }
+
+  /* Show chevron on mobile */
+  .filter-dropdown__arrow {
+    display: inline-block;
+    font-size: 0.6rem;
+    color: #888;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+  }
+  .filter-dropdown[open] .filter-dropdown__arrow {
+    transform: rotate(180deg);
+  }
+
+  /* ── Floating panel that drops below the bar ── */
+  .filter-dropdown__panel {
+    display: none;           /* hidden by default */
+    position: fixed;
+    top: calc(var(--nav-h, 56px) + 44px);
+    left: 0.65rem;
+    right: 0.65rem;
+    width: auto;
+    max-height: min(52vh, 320px);
+    overflow-y: auto;
+    padding: 1rem;
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 10px;
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.12);
+    z-index: 2062;
+  }
+  .filter-dropdown[open] .filter-dropdown__panel {
+    display: block;
+  }
+
+  /* Inputs inside floating panel */
+  .filter-dropdown__panel input[type="text"],
+  .filter-dropdown__panel input[type="number"] {
+    width: 100%;
+    font-size: 0.88rem;
+    padding: 0.6rem 0.75rem;
+  }
+
+  /* Nav links (categories) inside panel */
+  .filter-nav-link {
+    font-size: 0.82rem;
+    padding: 0.55rem 0;
+  }
+
+  /* Checkbox label inside panel */
+  .filter-check-label {
+    font-size: 0.82rem;
+    padding: 0.45rem 0;
+  }
+
+  /* Price inputs stack vertically in narrow panel */
+  .price-range {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.45rem;
+  }
+  .price-range::before {
+    margin-bottom: 0.2rem;
+  }
+  .price-range input {
+    width: 100%;
+    flex: none;
+  }
+
+  /* ── Backdrop overlay ── */
+  .filter-backdrop {
+    display: none;
+    position: fixed;
+    top: calc(var(--nav-h, 56px) + 44px);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(17, 17, 16, 0.35);
+    z-index: 2058;
+  }
+  .filter-backdrop.is-open {
+    display: block;
+  }
+
+  /* ── Products area below the bar ── */
+  .products-area {
+    padding: 0.75rem 0.5rem 1.5rem;
+  }
+
+  .results-count {
+    font-size: 0.62rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.55rem;
+  }
+
+  /* ── Product cards — compact 3-column grid ── */
+  .products-grid {
+    gap: 0.5rem;
+    justify-content: flex-start;
+  }
+
+  .products-grid .card {
+    width: calc(33.333% - 0.34rem);
+    min-width: 0;
+    padding: 0.5rem 0.35rem;
+    border-radius: 6px;
+  }
+
+  .products-grid .image img {
+    width: 100%;
+    height: auto;
+    max-height: 72px;
+    object-fit: contain;
+  }
+
+  .products-grid .card h3 {
+    font-size: 0.58rem;
+    margin: 0.35rem 0 0.15rem;
+    line-height: 1.25;
+  }
+
+  .products-grid .card p {
+    font-size: 0.48rem;
+    line-height: 1.25;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+  }
+
+  .products-grid .price {
+    font-size: 0.62rem;
+    margin-top: 0.25rem;
+  }
+
+  .products-grid button {
+    margin-top: 0.35rem;
+    padding: 0.38rem 0.2rem;
+    font-size: 0.44rem;
+    letter-spacing: 0.04em;
+    width: 100%;
+  }
+
+  .products-grid .card .product__qv,
+  .products-grid .card .product__fav {
+    width: 22px;
+    height: 22px;
+    font-size: 0.7rem;
+  }
+
+  .products-grid .card .product__card-tools {
+    top: 4px;
+    right: 4px;
+    gap: 3px;
+  }
+
+  .brand-page-title { font-size: 1.35rem; }
+  .brand-page-sub   { font-size: 0.75rem; }
+}
