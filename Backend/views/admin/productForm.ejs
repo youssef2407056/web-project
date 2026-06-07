@@ -1,0 +1,275 @@
+<%- include("../partials/head", {
+  title: typeof title !== "undefined" ? title : "Product · Admin",
+  bodyClass: "page-admin",
+  cssFiles: ["Common.css", "Home.css", "admin.css"]
+}) %>
+
+<%- include("../partials/navbar", { activePage: "admin", navbarClass: "scrolled" }) %>
+
+<%
+  var sizesForScript = '[]';
+  if (typeof _sizesJson !== 'undefined' && _sizesJson != null && String(_sizesJson).length) {
+   sizesForScript = String(_sizesJson);
+  } else if (editMode && product && Array.isArray(product.sizes) && product.sizes.length) {
+    sizesForScript = JSON.stringify(product.sizes.map(function(s) {
+  return {
+    ml: s.ml != null ? Number(s.ml) : '',
+    price: s.price != null ? Number(s.price) : '',
+    stock: s.stock != null ? Number(s.stock) : 0,
+    inStock: s.inStock !== false
+  };
+}));
+  }
+%>
+
+<main class="admin-page">
+  <nav class="admin-breadcrumb" aria-label="Admin">
+    <a href="/admin">Dashboard</a>
+    <span aria-hidden="true">/</span>
+    <a href="/admin/products">Products</a>
+    <span aria-hidden="true">/</span>
+    <span><%= editMode ? "Edit" : "Add" %></span>
+  </nav>
+
+  <section class="admin-hero">
+    <h1><%= editMode ? "Edit product" : "Add product" %></h1>
+    <p>All product details are saved to the database (name, brand, pricing, sizes, notes, and more).</p>
+  </section>
+
+  <%- include("../partials/messages") %>
+
+  <section class="admin-form-card">
+    <form
+      class="admin-product-form"
+      method="POST" enctype="multipart/form-data"
+      action="<%= editMode && product ? '/admin/products/' + product._id + '/update' : '/admin/products' %>"
+    >
+      <div class="admin-form-grid">
+        <label>
+          Product name
+          <input type="text" name="name" value="<%= editMode && product ? product.name : '' %>" required>
+        </label>
+
+        <label>
+          Brand
+          <select name="brand" required>
+            <option value="" disabled <%= (!editMode || !product) ? 'selected' : '' %>>Select brand</option>
+            <option value="chanel" <%= editMode && product && product.brand === 'chanel' ? 'selected' : '' %>>Chanel</option>
+            <option value="dior"   <%= editMode && product && product.brand === 'dior'   ? 'selected' : '' %>>Dior</option>
+            <option value="boss"   <%= editMode && product && product.brand === 'boss'   ? 'selected' : '' %>>Boss</option>
+          </select>
+        </label>
+
+        <label>
+          Category
+          <select name="category" required>
+            <option value="" disabled <%= (!editMode || !product) ? 'selected' : '' %>>Select category</option>
+            <option value="men"    <%= editMode && product && product.category === 'men'    ? 'selected' : '' %>>Men</option>
+            <option value="women"  <%= editMode && product && product.category === 'women'  ? 'selected' : '' %>>Women</option>
+            <option value="unisex" <%= editMode && product && product.category === 'unisex' ? 'selected' : '' %>>Unisex</option>
+          </select>
+        </label>
+
+
+        <label class="admin-checkbox-label">
+          <input type="checkbox" name="isFeatured" value="true" <%= editMode && product && product.isFeatured ? 'checked' : '' %>>
+          Featured on home / flash sale
+        </label>
+        <label class="admin-checkbox-label">
+         <input type="checkbox" name="isBestSeller" value="true"<%= editMode && product && product.isBestSeller ? 'checked' : '' %>>
+          Best Seller
+        </label>
+
+        <label class="admin-checkbox-label">
+          <input type="checkbox" name="isHidden" value="true" <%= editMode && product && product.isHidden ? 'checked' : '' %>>
+          Hide from storefront (keeps product in admin, not visible to customers)
+        </label>
+
+        <div class="admin-span-2">
+          <label class="upload-label">Upload Image</label>
+          <div class="upload-box" id="uploadBox">
+            <div class="upload-icon">??</div>
+            <p class="upload-text">Drag & drop or <span class="upload-browse">browse</span></p>
+            <p class="upload-hint">JPG, PNG, WEBP � max 5MB</p>
+            <input type="file" name="image" accept="image/jpeg,image/png,image/webp" id="imageInput" class="upload-input">
+          </div>
+          <div class="upload-preview" id="uploadPreview" style="display:none">
+            <img id="previewImg" src="" alt="Preview">
+            <button type="button" class="upload-clear" id="clearImage">? Remove</button>
+          </div>
+          <% if (editMode && product && product.image) { %>
+            <div class="upload-current" id="currentImageBox">
+              <img src="<%= product.image %>" alt="Current image" class="upload-current-img">
+              <div class="upload-current-info">
+                <p class="upload-current-label">Current image</p>
+                <span class="upload-current-badge">ACTIVE</span>
+              </div>
+            </div>
+          <% } %>
+        </div>
+
+        <label class="admin-span-2">
+          Description
+          <textarea name="description" rows="4"><%= editMode && product ? (product.description || '') : '' %></textarea>
+        </label>
+        <div class="admin-span-2">
+  <h3 class="admin-subtitle">Scent Notes</h3>
+</div>
+
+       <label>
+  Top Notes
+  <input
+    type="text"
+    name="topNotes"
+   value="<%= editMode && product && product.scentNotes && product.scentNotes.top ? product.scentNotes.top.join(', ') : '' %>"
+  >
+</label>
+
+<label>
+  Heart Notes
+  <input
+  type="text"
+  name="heartNotes"
+  value="<%= editMode && product && product.scentNotes && product.scentNotes.heart ? product.scentNotes.heart.join(', ') : '' %>"
+>
+</label>
+
+<label>
+  Base Notes
+  <input
+    type="text"
+    name="baseNotes"
+    value="<%= editMode && product && product.scentNotes && product.scentNotes.base ? product.scentNotes.base.join(', ') : '' %>"
+  >
+</label>
+      </div>
+
+      <!-- Size variants with per-size stock -->
+      <div class="admin-sizes-block admin-span-2">
+        <h3 class="admin-subtitle">Size options</h3>
+        <p class="admin-form-hint">Optional variants — each size has its own ml, price, and stock quantity.</p>
+        <div class="admin-sizes-table-wrap">
+          <table class="admin-sizes-table">
+            <thead>
+  <tr>
+    <th>Size</th>
+    <th>Price (LE)</th>
+    <th>Stock</th>
+  </tr>
+</thead>
+
+<tbody>
+  <tr>
+  <td>30ml</td>
+  <td>
+    <input type="hidden" name="sizes[0][ml]" value="30">
+    <input type="number"name="sizes[0][price]"min="0" required value="<%= editMode && product && product.sizes && product.sizes[0] ? product.sizes[0].price : '' %>">
+  </td>
+  <td>
+    <input type="number" name="sizes[0][stock]" min="0" required value="<%= editMode && product && product.sizes && product.sizes[0] ? product.sizes[0].stock : 0 %>">
+  </td>
+</tr>
+
+  <tr>
+  <td>50ml</td>
+  <td>
+    <input type="hidden" name="sizes[1][ml]" value="50">
+    <input type="number" name="sizes[1][price]" min="0" required  value="<%= editMode && product && product.sizes && product.sizes[1] ? product.sizes[1].price : '' %>" >
+  </td>
+  <td>
+    <input type="number" name="sizes[1][stock]" min="0" required value="<%= editMode && product && product.sizes && product.sizes[1] ? product.sizes[1].stock : 0 %>" >
+  </td>
+</tr>
+
+ <tr>
+  <td>100ml</td>
+  <td>
+    <input type="hidden" name="sizes[2][ml]" value="100">
+    <input type="number" name="sizes[2][price]" min="0" required value="<%= editMode && product && product.sizes && product.sizes[2] ? product.sizes[2].price : '' %>">
+  </td>
+  <td>
+    <input type="number" name="sizes[2][stock]" min="0" required value="<%= editMode && product && product.sizes && product.sizes[2] ? product.sizes[2].stock : 0 %>">
+  </td>
+</tr>
+</tbody>       
+          </table>
+        </div>
+       
+      </div>
+
+      <div class="admin-form-actions">
+        <button type="submit" class="admin-btn-primary"><%= editMode ? "Save changes" : "Add product" %></button>
+        <a href="/admin/products" class="admin-btn-outline">Cancel</a>
+      </div>
+    </form>
+  </section>
+</main>
+
+<!-- Pass existing sizes from server → JS reliably via a global variable -->
+<script>
+  window.__editSizes = [];
+  window.__editMode  = false;
+</script>
+<%
+  var editSizesJson = '[]';
+  var editModeVal = 'false';
+  if (typeof sizesForScript !== 'undefined') {
+    editSizesJson = sizesForScript;
+  }
+  if (typeof editMode !== 'undefined' && editMode) {
+    editModeVal = 'true';
+  }
+%>
+<script id="editData" type="application/json">
+  {"sizes": <%- editSizesJson %>, "editMode": <%= editModeVal %>}
+</script>
+<script>
+  (function() {
+    try {
+      var data = JSON.parse(document.getElementById('editData').textContent);
+      window.__editSizes = data.sizes || [];
+      window.__editMode  = data.editMode || false;
+    } catch(e) {
+      window.__editSizes = [];
+      window.__editMode  = false;
+    }
+  })();
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const imageInput = document.getElementById("imageInput");
+  const preview = document.getElementById("uploadPreview");
+  const previewImg = document.getElementById("previewImg");
+  const clearBtn = document.getElementById("clearImage");
+  const currentImageBox = document.getElementById("currentImageBox");
+
+  imageInput.addEventListener("change", function () {
+    const file = this.files[0];
+
+    if (!file) return;
+
+    previewImg.src = URL.createObjectURL(file);
+    preview.style.display = "block";
+
+    if (currentImageBox) {
+      currentImageBox.style.display = "none";
+    }
+  });
+
+  clearBtn.addEventListener("click", function () {
+    imageInput.value = "";
+    previewImg.src = "";
+    preview.style.display = "none";
+
+    if (currentImageBox) {
+      currentImageBox.style.display = "flex";
+    }
+  });
+});
+</script>
+
+<%- include("../partials/adminFooter") %>
+
+
+
+

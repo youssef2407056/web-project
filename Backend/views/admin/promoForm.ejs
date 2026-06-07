@@ -1,0 +1,76 @@
+<%- include("../partials/head", {
+  title: typeof title !== "undefined" ? title : "Promo · Admin",
+  bodyClass: "page-admin",
+  cssFiles: ["Common.css", "Home.css", "admin.css"]
+}) %>
+
+<%- include("../partials/navbar", { activePage: "admin", navbarClass: "scrolled" }) %>
+
+<main class="admin-page">
+  <nav class="admin-breadcrumb" aria-label="Admin">
+    <a href="/admin">Dashboard</a>
+    <span aria-hidden="true">/</span>
+    <a href="/admin/promos">Promo codes</a>
+    <span aria-hidden="true">/</span>
+    <span><%= editMode ? "Edit" : "Add" %></span>
+  </nav>
+
+  <section class="admin-hero">
+    <h1><%= editMode ? "Edit promo code" : "Add promo code" %></h1>
+    <p>Codes are case-insensitive at checkout. Customers enter the code to receive the discount.</p>
+  </section>
+
+  <%- include("../partials/messages") %>
+
+  <section class="admin-form-card">
+    <form
+      class="admin-product-form"
+      method="POST"
+      action="<%= editMode && promo ? '/admin/promos/' + promo._id + '/update' : '/admin/promos' %>"
+    >
+      <div class="admin-form-grid">
+        <label>
+          Code
+          <input
+            type="text"
+            name="code"
+            required
+            minlength="2"
+            maxlength="32"
+            value="<%= editMode && promo ? promo.code : '' %>"
+            <%= editMode ? 'readonly' : '' %>
+            style="text-transform: uppercase;"
+          >
+          <% if (editMode) { %>
+            <span class="admin-form-hint">Code cannot be changed after creation.</span>
+          <% } %>
+        </label>
+
+        <label>
+          Discount (%)
+          <input
+            type="number"
+            name="discountPercent"
+            min="1"
+            max="100"
+            step="1"
+            required
+            value="<%= editMode && promo ? promo.discountPercent : '10' %>"
+          >
+        </label>
+
+        <label class="admin-checkbox-label admin-span-2">
+          <input type="checkbox" name="active" <%= !editMode || !promo || promo.active !== false ? "checked" : "" %>>
+          Active (customers can use this code at checkout)
+        </label>
+      </div>
+
+      <div class="admin-form-actions">
+        <button type="submit" class="admin-btn-primary"><%= editMode ? "Save changes" : "Create promo" %></button>
+        <a href="/admin/promos" class="admin-btn-outline">Cancel</a>
+      </div>
+    </form>
+  </section>
+</main>
+
+<%- include("../partials/adminFooter") %>

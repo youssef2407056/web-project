@@ -1,0 +1,69 @@
+<%- include("../partials/head", {
+  title: "Promo Codes · Noir Perfume",
+  bodyClass: "page-admin",
+  cssFiles: ["Common.css", "Home.css", "admin.css"]
+}) %>
+
+<%- include("../partials/navbar", { activePage: "admin", navbarClass: "scrolled" }) %>
+
+<main class="admin-page">
+  <nav class="admin-breadcrumb" aria-label="Admin">
+    <a href="/admin">Dashboard</a>
+    <span aria-hidden="true">/</span>
+    <span>Promo codes</span>
+  </nav>
+
+  <section class="admin-hero admin-hero--row">
+    <div>
+      <h1>Promo codes</h1>
+      <p>Create discount codes for checkout (super admin only).</p>
+    </div>
+    <a class="admin-btn-primary" href="/admin/promos/new">+ Add promo</a>
+  </section>
+
+  <%- include("../partials/messages") %>
+
+  <section class="admin-table-wrap">
+    <% if (!promos || promos.length === 0) { %>
+      <p class="admin-empty-msg">No promo codes yet. <a href="/admin/promos/new">Create one</a>.</p>
+    <% } else { %>
+      <div class="admin-table-scroll">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Discount</th>
+              <th>Status</th>
+              <th>Created</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% promos.forEach(promo => { %>
+              <tr>
+                <td><code><%= promo.code %></code></td>
+                <td><%= promo.discountPercent %>% off</td>
+                <td>
+                  <% if (promo.active) { %>
+                    <span class="admin-badge admin-badge--active">Active</span>
+                  <% } else { %>
+                    <span class="admin-badge">Inactive</span>
+                  <% } %>
+                </td>
+                <td><%= promo.createdAt ? new Date(promo.createdAt).toLocaleDateString("en-GB") : "—" %></td>
+                <td class="admin-table-actions">
+                  <a class="admin-btn-outline admin-btn-sm" href="/admin/promos/<%= promo._id %>/edit">Edit</a>
+                  <form action="/admin/promos/<%= promo._id %>/delete" method="POST" class="admin-inline-form">
+                    <button type="submit" class="admin-btn-danger admin-btn-sm" onclick="return confirm('Delete this promo code?')">Delete</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </section>
+</main>
+
+<%- include("../partials/adminFooter") %>

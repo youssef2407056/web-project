@@ -1,0 +1,90 @@
+<%- include("../partials/head", {
+  title: "Edit Order · Noir Perfume",
+  bodyClass: "page-admin",
+  cssFiles: ["Common.css", "Home.css", "admin.css"]
+}) %>
+
+<%- include("../partials/navbar", { activePage: "admin", navbarClass: "scrolled" }) %>
+
+<main class="admin-page">
+  <nav class="admin-breadcrumb" aria-label="Admin">
+    <a href="/admin">Dashboard</a>
+    <span aria-hidden="true">/</span>
+    <a href="/admin/orders">Orders</a>
+    <span aria-hidden="true">/</span>
+    <span>Edit</span>
+  </nav>
+
+  <section class="admin-hero">
+    <h1>Edit order #<%= order._id.toString().slice(-8).toUpperCase() %></h1>
+    <p>Update customer details, status, and total. Line items are shown for reference.</p>
+  </section>
+
+  <%- include("../partials/messages") %>
+
+  <% if (order.lineItems && order.lineItems.length) { %>
+    <section class="admin-form-card admin-order-lines-preview">
+      <h2 class="admin-form-section-title">Order items</h2>
+      <ul class="admin-order-lines-list">
+        <% order.lineItems.forEach(function (line) { %>
+          <li>
+            <strong><%= line.name %></strong>
+            <% if (line.sizeMl) { %> · <%= line.sizeMl %> ml<% } %>
+            — <%= line.quantity || 1 %> × <span class="noir-money" data-egp="<%= Number(line.price || 0) %>">LE <%= Number(line.price || 0).toLocaleString("en-US") %></span>
+          </li>
+        <% }) %>
+      </ul>
+    </section>
+  <% } %>
+
+  <section class="admin-form-card">
+    <form class="admin-product-form" method="POST" action="/admin/orders/<%= order._id %>/update">
+      <div class="admin-form-grid">
+        <label>
+          Customer name
+          <input type="text" name="customerName" required value="<%= order.customerName || "" %>">
+        </label>
+
+        <label>
+          Customer email
+          <input type="email" name="customerEmail" required value="<%= order.customerEmail || "" %>">
+        </label>
+
+        <label>
+          Phone
+          <input type="text" name="phone" required value="<%= order.phone || "" %>">
+        </label>
+
+        <label class="admin-span-2">
+          Shipping address
+          <textarea name="shippingAddress" rows="3" required><%= order.shippingAddress || "" %></textarea>
+        </label>
+
+        <label>
+          Status
+          <select name="status" required>
+            <option value="pending" <%= order.status === "pending" ? "selected" : "" %>>Pending</option>
+            <option value="shipped" <%= order.status === "shipped" ? "selected" : "" %>>Shipped</option>
+            <option value="delivered" <%= order.status === "delivered" ? "selected" : "" %>>Delivered</option>
+            <option value="cancelled" <%= order.status === "cancelled" ? "selected" : "" %>>Cancelled</option>
+          </select>
+        </label>
+
+        <label>
+          Total (LE)
+          <input type="number" name="totalPrice" min="0" step="0.01" required value="<%= order.totalPrice %>">
+        </label>
+      </div>
+
+      <div class="admin-form-actions">
+        <button type="submit" class="admin-btn-primary">Save changes</button>
+        <a href="/admin/orders" class="admin-btn-outline">Cancel</a>
+      </div>
+    </form>
+    <form action="/admin/orders/<%= order._id %>/delete" method="POST" class="admin-form-actions admin-form-actions--secondary">
+      <button type="submit" class="admin-btn-danger" onclick="return confirm('Delete this order permanently?')">Delete order</button>
+    </form>
+  </section>
+</main>
+
+<%- include("../partials/adminFooter") %>

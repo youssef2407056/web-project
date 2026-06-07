@@ -1,0 +1,92 @@
+<%- include("../partials/head", {
+  title: "Admin Products · Noir Perfume",
+  bodyClass: "page-admin",
+  cssFiles: ["Common.css", "Home.css", "admin.css"]
+}) %>
+
+<%- include("../partials/navbar", { activePage: "admin", navbarClass: "scrolled" }) %>
+
+<main class="admin-page">
+  <nav class="admin-breadcrumb" aria-label="Admin">
+    <a href="/admin">Dashboard</a>
+    <span aria-hidden="true">/</span>
+    <span>Products</span>
+  </nav>
+
+  <section class="admin-hero admin-hero--row">
+    <div>
+      <h1>Products</h1>
+      <p>Manage all products in the store database.</p>
+    </div>
+    <a class="admin-btn-primary" href="/admin/products/new">+ Add product</a>
+  </section>
+
+  <%- include("../partials/messages") %>
+
+  <section class="admin-table-wrap">
+    <% if (!products || products.length === 0) { %>
+      <p class="admin-empty-msg">No products yet. <a href="/admin/products/new">Add your first product</a>.</p>
+    <% } else { %>
+      <div class="admin-table-scroll">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Brand</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Featured</th>
+              <th>Best Seller</th>
+              <th>Visible</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% products.forEach(product => { %>
+              <tr>
+                <td>
+                  <% if (product.image) { %>
+                    <img class="admin-table-thumb" src="<%= product.image %>" alt="">
+                  <% } %>
+                </td>
+                <td><%= product.name %></td>
+                <td><%= product.brand %></td>
+                <td><%= product.category %></td>
+                <td><%const displayPrice =product.sizes &&product.sizes.length? product.sizes[0].price: 0;%>
+
+               <span class="noir-money" data-egp="<%= displayPrice %>"> LE <%= Number(displayPrice).toLocaleString("en-US") %>
+               </span>
+                </td>
+                <td><%const totalStock =product.sizes && product.sizes.length? product.sizes.reduce((sum, s) => sum + (Number(s.stock) || 0), 0): 0;%>
+                 <%= totalStock %>
+                </td>
+                <td><%= product.isFeatured ? "Yes" : "—" %></td>
+                <td><%= product.isBestSeller ? "Yes" : "—" %></td>
+                <td>
+                  <% if (product.isHidden) { %>
+                    <span class="admin-badge">Hidden</span>
+                  <% } else { %>
+                    <span class="admin-badge admin-badge--active">Live</span>
+                  <% } %>
+                </td>
+                <td class="admin-table-actions">
+                  <a class="admin-btn-outline admin-btn-sm" href="/admin/products/<%= product._id %>/edit">Edit</a>
+                  <form action="/admin/products/<%= product._id %>/toggle-hidden" method="POST" class="admin-inline-form">
+                    <button type="submit" class="admin-btn-outline admin-btn-sm"><%= product.isHidden ? "Show" : "Hide" %></button>
+                  </form>
+                  <form action="/admin/products/<%= product._id %>/delete" method="POST" class="admin-inline-form">
+                    <button type="submit" class="admin-btn-danger admin-btn-sm" onclick="return confirm('Delete this product permanently?')">Delete</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </section>
+</main>
+
+<%- include("../partials/adminFooter") %>

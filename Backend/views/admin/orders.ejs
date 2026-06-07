@@ -1,0 +1,91 @@
+<%- include("../partials/head", {
+  title: "Admin Orders · Noir Perfume",
+  bodyClass: "page-admin",
+  cssFiles: ["Common.css", "Home.css", "admin.css"]
+}) %>
+
+<%- include("../partials/navbar", { activePage: "admin", navbarClass: "scrolled" }) %>
+
+<main class="admin-page">
+  <nav class="admin-breadcrumb" aria-label="Admin">
+    <a href="/admin">Dashboard</a>
+    <span aria-hidden="true">/</span>
+    <span>Orders</span>
+  </nav>
+
+  <section class="admin-hero">
+    <h1>All orders</h1>
+    <p>View, edit, and delete customer orders.</p>
+  </section>
+
+  <%- include("../partials/messages") %>
+
+  <section class="admin-table-wrap">
+    <% if (!orders || orders.length === 0) { %>
+      <p class="admin-empty-msg">No orders yet.</p>
+    <% } else { %>
+      <div class="admin-table-scroll">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Order</th>
+              <th>Customer</th>
+              <th>Items</th>
+              <th>Date</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% orders.forEach(order => { %>
+              <tr>
+                <td>#<%= order._id.toString().slice(-8).toUpperCase() %></td>
+                <td>
+                  <%= order.customerName || (order.user ? order.user.name : "—") %><br>
+                  <small><%= order.customerEmail || (order.user ? order.user.email : "—") %></small>
+                </td>
+                <td class="admin-order-items">
+                  <% if (order.lineItems && order.lineItems.length) { %>
+                    <% order.lineItems.forEach(function (line) { %>
+                      <div>
+                        <%= line.name || "Product" %>
+                        <% if (line.sizeMl) { %> · <%= line.sizeMl %> ml<% } %>
+                        × <%= line.quantity || 1 %>
+                      </div>
+                    <% }) %>
+                  <% } else if (order.products && order.products.length) { %>
+                    <% order.products.forEach(function (item) { %>
+                      <div>
+                        <%= item.product && item.product.name ? item.product.name : "Product" %>
+                        × <%= item.quantity %>
+                      </div>
+                    <% }) %>
+                  <% } else { %>
+                    <span>—</span>
+                  <% } %>
+                </td>
+                <td><%= new Date(order.createdAt).toLocaleDateString("en-GB") %></td>
+                <td>
+                  <span class="noir-money" data-egp="<%= Number(order.totalPrice) %>">LE <%= Number(order.totalPrice).toLocaleString("en-US") %></span>
+                  <% if (order.promoCode) { %>
+                    <br><small>Promo: <%= order.promoCode %> (−<%= order.discountPercent %>%)</small>
+                  <% } %>
+                </td>
+                <td><span class="admin-badge"><%= order.status %></span></td>
+                <td class="admin-table-actions">
+                  <a class="admin-btn-outline admin-btn-sm" href="/admin/orders/<%= order._id %>/edit">Edit</a>
+                  <form action="/admin/orders/<%= order._id %>/delete" method="POST" class="admin-inline-form">
+                    <button type="submit" class="admin-btn-danger admin-btn-sm" onclick="return confirm('Delete this order permanently?')">Delete</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </section>
+</main>
+
+<%- include("../partials/adminFooter") %>

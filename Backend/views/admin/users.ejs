@@ -1,0 +1,68 @@
+<%- include("../partials/head", {
+  title: "Admin Users · Noir Perfume",
+  bodyClass: "page-admin",
+  cssFiles: ["Common.css", "Home.css", "admin.css"]
+}) %>
+
+<%- include("../partials/navbar", { activePage: "admin", navbarClass: "scrolled" }) %>
+
+<main class="admin-page">
+  <nav class="admin-breadcrumb" aria-label="Admin">
+    <a href="/admin">Dashboard</a>
+    <span aria-hidden="true">/</span>
+    <span>Users</span>
+  </nav>
+
+  <section class="admin-hero admin-hero--row">
+    <div>
+      <h1>Users</h1>
+      <p>Registered customer and admin accounts.</p>
+    </div>
+    <a class="admin-btn-primary" href="/admin/users/new">+ Add user</a>
+  </section>
+
+  <%- include("../partials/messages") %>
+
+  <section class="admin-table-wrap">
+    <% if (!users || users.length === 0) { %>
+      <p class="admin-empty-msg">No users found. <a href="/admin/users/new">Add a user</a>.</p>
+    <% } else { %>
+      <div class="admin-table-scroll">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Created</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.forEach(siteUser => { %>
+              <tr>
+                <td><%= siteUser.name %></td>
+                <td><%= siteUser.email %></td>
+                <td><span class="admin-badge admin-badge--<%= siteUser.role %>"><%= siteUser.role %></span></td>
+                <td><%= siteUser.createdAt ? new Date(siteUser.createdAt).toLocaleDateString("en-GB") : "—" %></td>
+                <td class="admin-table-actions">
+                  <a class="admin-btn-outline admin-btn-sm" href="/admin/users/<%= siteUser._id %>/edit">Edit</a>
+                  <% const loggedInId = (typeof currentUserId !== 'undefined' && currentUserId) ? String(currentUserId) : ''; %>
+                  <% if (String(siteUser._id) !== loggedInId) { %>
+                    <form action="/admin/users/<%= siteUser._id %>/delete" method="POST" class="admin-inline-form">
+                      <button type="submit" class="admin-btn-danger admin-btn-sm" onclick="return confirm('Delete this user permanently?')">Delete</button>
+                    </form>
+                  <% } else { %>
+                    <span class="admin-form-hint">You</span>
+                  <% } %>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </section>
+</main>
+
+<%- include("../partials/adminFooter") %>

@@ -1,0 +1,66 @@
+<%- include("../partials/head", {
+  title: typeof title !== "undefined" ? title : "User · Admin",
+  bodyClass: "page-admin",
+  cssFiles: ["Common.css", "Home.css", "admin.css"]
+}) %>
+
+<%- include("../partials/navbar", { activePage: "admin", navbarClass: "scrolled" }) %>
+
+<main class="admin-page">
+  <nav class="admin-breadcrumb" aria-label="Admin">
+    <a href="/admin">Dashboard</a>
+    <span aria-hidden="true">/</span>
+    <a href="/admin/users">Users</a>
+    <span aria-hidden="true">/</span>
+    <span><%= editMode ? "Edit" : "Add" %></span>
+  </nav>
+
+  <section class="admin-hero">
+    <h1><%= editMode ? "Edit user" : "Add user" %></h1>
+    <p><%= editMode ? "Update account details. Leave password blank to keep the current one." : "Create a new customer or admin account." %></p>
+  </section>
+
+  <%- include("../partials/messages") %>
+
+  <section class="admin-form-card">
+    <form
+      class="admin-product-form"
+      method="POST"
+      action="<%= editMode ? '/admin/users/' + siteUser._id + '/update' : '/admin/users' %>"
+    >
+      <div class="admin-form-grid">
+        <label>
+          Full name
+          <input type="text" name="name" required minlength="2" value="<%= editMode && siteUser ? siteUser.name : '' %>">
+        </label>
+
+        <label>
+          Email
+          <input type="email" name="email" required value="<%= editMode && siteUser ? siteUser.email : '' %>">
+        </label>
+
+        <label>
+          Role
+          <select name="role" required>
+            <option value="user" <%= !editMode || !siteUser || siteUser.role === 'user' ? 'selected' : '' %>>User</option>
+            <option value="admin" <%= editMode && siteUser && siteUser.role === 'admin' ? 'selected' : '' %>>Admin</option>
+            <option value="superadmin" <%= editMode && siteUser && siteUser.role === 'superadmin' ? 'selected' : '' %>>Super admin</option>
+          </select>
+        </label>
+
+        <label class="admin-span-2">
+          Password
+          <input type="password" name="password" minlength="8" autocomplete="new-password" <%= editMode ? '' : 'required' %>>
+          <span class="admin-form-hint"><%= editMode ? "Leave empty to keep current password." : "Minimum 8 characters." %></span>
+        </label>
+      </div>
+
+      <div class="admin-form-actions">
+        <button type="submit" class="admin-btn-primary"><%= editMode ? "Save changes" : "Create user" %></button>
+        <a href="/admin/users" class="admin-btn-outline">Cancel</a>
+      </div>
+    </form>
+  </section>
+</main>
+
+<%- include("../partials/adminFooter") %>
