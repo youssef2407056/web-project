@@ -1,0 +1,11 @@
+const express = require("express");
+const router = express.Router();
+
+const reviewController = require("../controllers/reviewController");
+const { requireLoginApi, requireAdmin } = require("../middleware/authMiddleware");
+
+router.get("/:productId", reviewController.getProductReviews);
+router.post("/:productId", requireLoginApi, reviewController.addReview);
+router.delete("/:id", requireAdmin, reviewController.deleteReview);
+
+module.exports = router;
