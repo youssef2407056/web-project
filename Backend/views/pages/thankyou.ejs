@@ -1,0 +1,23 @@
+<%- include("../partials/head", {
+  title: "Thank you · Noir Perfume",
+  cssFiles: ["Common.css", "Home.css", "shop.css"]
+}) %>
+
+<%- include("../partials/navbar", { activePage: "" }) %>
+
+<main class="auth-page">
+  <div class="auth-card">
+    <h1>Thank you</h1>
+    <p>Your order was received. We will email you confirmation shortly.</p>
+    <p class="auth-alt">
+      <a href="/">Back to home</a> · <a href="/shop">Continue shopping</a>
+    </p>
+  </div>
+</main>
+
+<%- include("../partials/searchModal") %>
+<%- include("../partials/cartDrawer") %>
+
+<%- include("../partials/footer", {
+  jsFiles: ["products-catalog.js", "shop.js", "quick-view-modal.js", "nav-search.js", "home.js"]
+}) %>

@@ -1,0 +1,65 @@
+<%- include("../partials/head", {
+  title: "Checkout · Noir Perfume",
+  cssFiles: ["Common.css", "Home.css", "shop.css", "checkout.css"]
+}) %>
+
+<%- include("../partials/navbar", { activePage: "checkout", navbarClass: "scrolled" }) %>
+
+<main class="checkout-page">
+  <h1 style="text-align:center;font-family:var(--font-display);margin-bottom:2rem">Checkout</h1>
+
+  <%- include("../partials/messages") %>
+
+  <div class="checkout-grid">
+    <div class="checkout-summary">
+      <h2>Order summary</h2>
+      <ul class="checkout-lines" id="checkoutLines"></ul>
+      <p style="font-weight:700;text-align:right" id="checkoutTotalWrap">Total: <span id="checkoutTotal">—</span></p>
+    </div>
+
+    <div class="checkout-form-wrap">
+      <h2>Shipping details</h2>
+
+      <form id="checkoutForm" action="/checkout" method="POST" novalidate>
+        <input type="hidden" name="cartItems" id="cartItemsField" value="">
+        <input type="text" name="name" placeholder="Full name" required autocomplete="name" value="<%= user ? user.name || '' : '' %>">
+        <input type="email" name="email" placeholder="Email" required autocomplete="email" value="<%= user ? user.email || '' : '' %>">
+        <input type="tel" name="phone" placeholder="Phone" required autocomplete="tel">
+        <textarea name="address" rows="3" placeholder="Shipping address" required></textarea>
+
+        <h2 style="margin:1.5rem 0 0.75rem">Payment method</h2>
+        <div class="payment-methods">
+          <label class="payment-method-btn">
+            <input type="radio" name="paymentMethod" value="cash" checked>
+            <span>Cash on delivery</span>
+          </label>
+        </div>
+
+        <h2 style="margin:1.5rem 0 0.75rem">Promo code</h2>
+        <div class="promo-row">
+          <input type="text" id="promoInput" name="promoCode" class="promo-input" placeholder="Enter your promo code" autocomplete="off" autocapitalize="characters" spellcheck="false">
+          <button type="button" id="promoApply">Apply</button>
+        </div>
+
+        <p id="promoMsg" style="font-size:0.82rem;min-height:1.1em;margin-top:0.3rem"></p>
+
+        <div class="checkout-final-total" id="checkoutFinalWrap" style="display:none">
+          <div class="checkout-total-row"><span>Subtotal</span><span id="finalSubtotal">—</span></div>
+          <div class="checkout-total-row checkout-discount-row" id="discountRow" style="display:none">
+            <span>Discount</span><span id="finalDiscount">—</span>
+          </div>
+          <div class="checkout-total-row checkout-total-final"><span>Total</span><span id="finalTotal">—</span></div>
+        </div>
+
+        <button type="submit">Place order</button>
+      </form>
+    </div>
+  </div>
+</main>
+
+<%- include("../partials/searchModal") %>
+<%- include("../partials/cartDrawer") %>
+
+<%- include("../partials/footer", {
+  jsFiles: ["products-catalog.js", "shop.js", "quick-view-modal.js", "nav-search.js", "home.js", "checkout.js"]
+}) %>

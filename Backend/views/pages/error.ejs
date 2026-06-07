@@ -1,0 +1,25 @@
+<%- include("../partials/head", {
+  title: "Server Error",
+  cssFiles: ["Common.css", "Home.css", "shop.css"]
+}) %>
+
+<%- include("../partials/navbar", { activePage: "" }) %>
+
+<main class="auth-page">
+  <div class="auth-card">
+    <h1>Server Error</h1>
+    <% if (typeof message !== "undefined" && message) { %>
+      <p><%= message %></p>
+    <% } else { %>
+      <p>Something went wrong. Please try again later.</p>
+    <% } %>
+    <p class="auth-alt" style="font-size:0.85rem">Restart the server after code changes (<code>npm run dev</code>).</p>
+    <p class="auth-alt"><a href="/">Back to home</a></p>
+  </div>
+</main>
+
+<%- include("../partials/cartDrawer") %>
+
+<%- include("../partials/footer", {
+  jsFiles: ["products-catalog.js", "shop.js", "nav-search.js", "home.js"]
+}) %>

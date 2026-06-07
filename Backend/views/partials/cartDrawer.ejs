@@ -1,0 +1,17 @@
+<div class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-header">
+    <h2>Your Cart</h2>
+    <button type="button" class="close-btn" onclick="toggleCart()" aria-label="Close cart">✕</button>
+  </div>
+
+  <div class="cart-items" id="cart-items">
+    <p class="empty-msg">Your cart is empty.</p>
+  </div>
+
+  <div class="cart-footer" id="cart-footer" style="display:none;">
+    <div class="cart-total">Total: <span id="cart-total">0</span></div>
+    <button type="button" class="checkout-btn" onclick="window.location.href='/checkout'">Checkout</button>
+  </div>
+</div>
+
+<div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
