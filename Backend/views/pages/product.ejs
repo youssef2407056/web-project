@@ -1,0 +1,111 @@
+<%- include("../partials/head", {
+  title: typeof title !== "undefined" ? title : "Product · Noir Perfume",
+  cssFiles: ["Common.css", "Home.css", "shop.css"]
+}) %>
+
+<%
+  var noirCatalogId = "";
+  if (typeof catalogId !== "undefined" && catalogId) {
+    noirCatalogId = String(catalogId);
+  } else if (typeof productId !== "undefined" && productId) {
+    noirCatalogId = String(productId);
+  }
+
+  var noirPageProductJson = "";
+  if (typeof pageProduct !== "undefined" && pageProduct) {
+    noirPageProductJson = JSON.stringify(pageProduct);
+  } else if (typeof product !== "undefined" && product) {
+    noirPageProductJson = JSON.stringify({
+      id: String(product._id),
+      name: product.name,
+      image: product.image
+    });
+  }
+%>
+
+<%- include("../partials/navbar", { activePage: "shop", navbarClass: "scrolled" }) %>
+
+<%- include("../partials/searchModal") %>
+
+<div class="not-found" id="productNotFound" style="display:none">
+  <h1>Product not found</h1>
+  <p><a href="/shop">Browse the shop</a></p>
+</div>
+
+<main class="product-page" id="productRoot"<%= noirCatalogId ? (' data-catalog-id="' + String(noirCatalogId).replace(/&/g, '&amp;').replace(/"/g, '&quot;') + '"') : '' %>>
+  <div class="product-detail">
+    <div class="product-detail__media">
+      <img id="pdImg" src="" alt="">
+    </div>
+
+    <div class="product-detail__info">
+      <h1 id="pdTitle"></h1>
+      <p class="lead" id="pdLead"></p>
+      <p class="product-detail__price" id="pdPrice"></p>
+
+      <div class="size-select">
+        <label for="pdSize">Bottle size (ml)</label>
+        <select id="pdSize"></select>
+      </div>
+
+      <div class="product-detail__top-actions">
+        <button type="button" class="product-detail__fav" id="pdFav" aria-pressed="false" aria-label="Add to favorites">
+          <span class="product-detail__fav-icon" aria-hidden="true">❤</span>
+        </button>
+
+        <div class="product-qty">
+          <label>Quantity</label>
+          <div class="qty-stepper">
+            <button type="button" class="qty-step-btn" id="pdQtyDec" aria-label="Decrease">−</button>
+            <span class="qty-step-val" id="pdQty">1</span>
+            <button type="button" class="qty-step-btn" id="pdQtyInc" aria-label="Increase">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-actions">
+        <button type="button" class="btn-add-cart" id="pdAddCart">Add to cart</button>
+        <button type="button" class="btn-buy" id="pdBuyNow">Buy now</button>
+      </div>
+
+      <div class="scent-notes" id="pdScentNotes" style="display:none">
+        <h3 class="scent-notes__title">Scent profile</h3>
+        <div class="scent-notes__rows" id="pdScentRows"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<section class="related-section" id="relatedSection">
+  <div class="related-inner">
+    <h2 class="related-heading">You might also like</h2>
+    <div class="related-grid" id="relatedGrid"></div>
+  </div>
+</section>
+
+<section class="reviews-section" id="reviewsSection" data-product-id="">
+  <div class="reviews-inner">
+    <div class="reviews-header">
+      <h2 class="reviews-heading">Customer Reviews</h2>
+    </div>
+    <div class="reviews-layout">
+      <div class="reviews-left">
+        <div id="reviewsSummary"></div>
+        <div id="reviewFormWrap"></div>
+      </div>
+      <div class="reviews-right">
+        <div id="reviewsList"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include("../partials/cartDrawer") %>
+
+<% if (noirPageProductJson) { %>
+<script type="application/json" id="noir-page-product-json"><%- noirPageProductJson %></script>
+<% } %>
+
+<%- include("../partials/footer", {
+  jsFiles: ["products-catalog.js", "shop.js", "quick-view-modal.js", "nav-search.js", "home.js", "product-page.js", "reviews.js"]
+}) %>
