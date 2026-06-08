@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title><%= typeof title !== "undefined" ? title : "Noir Perfume" %></title>
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<% if (typeof cssFiles !== "undefined" && Array.isArray(cssFiles)) { %>
+  <% cssFiles.forEach(file => { %>
+    <% const cssName = String(file).toLowerCase() === "common.css" ? "Common.css" : file; %>
+    <% const cssHref = cssName === "admin.css" ? "/Admin/CSS/admin.css" : "/User/CSS/" + cssName; %>
+    <link rel="stylesheet" href="<%= cssHref %>">
+  <% }) %>
+<% } %>
+
+  <script>
+    (function () {
+      var p = (window.location.pathname || "").replace(/\\/g, "/").toLowerCase();
+      if (p === "/" || /(^|\/)home\.html$/.test(p)) {
+        window.noirUserHtmlPrefix = "User/Html/";
+      }
+      window.noirSession = {
+        loggedIn: <%= user ? "true" : "false" %>,
+        userId: "<%= typeof currentUserId !== 'undefined' ? currentUserId : '' %>",
+        userName: "<%= user && user.name ? String(user.name).replace(/"/g, '\\"') : '' %>",
+        userEmail: "<%= user && user.email ? String(user.email).replace(/"/g, '\\"') : '' %>"
+      };
+      if (!window.noirSession.loggedIn) {
+        var _logoutParams = new URLSearchParams(window.location.search);
+        if (_logoutParams.get("loggedOut") === "1") {
+          localStorage.removeItem("noir_cart");
+          localStorage.removeItem("noir_favorites");
+          _logoutParams.delete("loggedOut");
+          var _clean = _logoutParams.toString();
+          window.history.replaceState({}, "", window.location.pathname + (_clean ? "?" + _clean : "") + window.location.hash);
+        }
+      }
+    })();
+  </script>
+</head>
+
+<body class="<%= typeof bodyClass !== 'undefined' ? bodyClass : '' %>"
+  <% if (typeof bodyData !== "undefined" && bodyData) { %>
+    <% Object.keys(bodyData).forEach(key => { %>
+      data-<%= key %>="<%= bodyData[key] %>"
+    <% }) %>
+  <% } %>>
