@@ -51,6 +51,8 @@ if (!process.env.SESSION_SECRET && isProduction) {
   console.warn("Warning: SESSION_SECRET is not set. Set it in production for secure sessions.");
 }
 
+app.set("trust proxy", 1);
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "noir_secret_key",
@@ -64,6 +66,8 @@ app.use(
     cookie: {
       maxAge: 1000 * 60 * 60 * 24,
       secure: isProduction,
+      sameSite: "lax",
+      httpOnly: true
     }
   })
 );
