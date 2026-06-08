@@ -1,0 +1,85 @@
+<%- include("../partials/head", {
+  title: "Noir Perfume · Niche Fragrance",
+  bodyClass: "page-home",
+  cssFiles: ["Common.css", "Home.css"]
+}) %>
+
+<%- include("../partials/navbar", { activePage: "home" }) %>
+
+<section class="hero" aria-label="Featured">
+  <video autoplay muted loop playsinline class="hero-video">
+    <source src="/User/Images/home page video.mp4" type="video/mp4">
+  </video>
+  <div class="hero__overlay" aria-hidden="true"></div>
+  <div class="hero__content page-container">
+    <p class="hero__eyebrow">Niche &amp; designer fragrances</p>
+    <h1 class="hero__title">Noir Perfume</h1>
+    <p class="hero__subtitle">Discover curated scents for those who wear fragrance as a signature—not a trend.</p>
+    <div class="hero__actions">
+      <a href="/shop" class="btn btn--primary">Shop collection</a>
+      <a href="/about" class="btn btn--ghost">Our story</a>
+    </div>
+  </div>
+</section>
+
+<main id="main-content">
+  <section id="flash-sale" class="flash-sale" aria-labelledby="flash-sale-heading">
+    <div class="page-container">
+      <header class="section-header">
+        <p class="section-eyebrow">Limited time</p>
+        <h2 id="flash-sale-heading" class="section-title">Flash sale</h2>
+      </header>
+      <div class="products-grid"></div>
+    </div>
+  </section>
+
+  <section id="about" class="brands" aria-labelledby="about-heading">
+    <div class="page-container">
+      <header class="section-header">
+        <p class="section-eyebrow">Authenticity</p>
+        <h2 id="about-heading" class="section-title">Our brands</h2>
+      </header>
+      <div class="brand-logos">
+        <a href="/shop?brand=chanel" class="brand-logo-hit" aria-label="Shop Chanel"><img src="/User/Images/chanel logo.jpeg" alt="Chanel logo"></a>
+        <a href="/shop?brand=dior" class="brand-logo-hit" aria-label="Shop Dior"><img src="/User/Images/Dior Vector Logo.jpeg" alt="Dior logo"></a>
+        <a href="/shop?brand=boss" class="brand-logo-hit" aria-label="Shop Hugo Boss"><img src="/User/Images/Hugo Boss _ Blog dos Perfumes.jpeg" alt="Hugo Boss logo"></a>
+      </div>
+
+      <div class="brand-boxes">
+        <a href="/shop?brand=chanel" class="brand-card">
+          <img src="/User/Images/chanel2forwomen.jpg" alt="">
+          <div class="brand-text">
+            <h3>Chanel</h3>
+            <p>Timeless elegance and iconic compositions from the house.</p>
+            <span>Shop Chanel</span>
+          </div>
+        </a>
+        <a href="/shop?brand=dior" class="brand-card">
+          <img src="/User/Images/Dior4.men.jpg" alt="">
+          <div class="brand-text">
+            <h3>Dior</h3>
+            <p>Refined couture spirit in every bottle—from fresh to bold.</p>
+            <span>Shop Dior</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="best-sellers" class="best-sellers" aria-labelledby="bestsellers-heading">
+    <div class="page-container">
+      <header class="section-header">
+        <p class="section-eyebrow">Most loved</p>
+        <h2 id="bestsellers-heading" class="section-title">Best sellers</h2>
+      </header>
+      <div class="products-grid"></div>
+    </div>
+  </section>
+</main>
+
+<%- include("../partials/searchModal") %>
+<%- include("../partials/cartDrawer") %>
+
+<%- include("../partials/footer", {
+  jsFiles: ["products-catalog.js", "shop.js", "quick-view-modal.js", "nav-search.js", "home.js"]
+}) %>
