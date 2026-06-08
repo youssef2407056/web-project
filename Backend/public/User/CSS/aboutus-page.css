@@ -1,0 +1,310 @@
+/* About us — gray background, white copy, transparent nav → white bar on scroll */
+
+body.page-about {
+  background: var(--color-bg, #f5f3f0);
+  color: #ffffff;
+}
+
+body.page-about #main-content {
+  background: transparent;
+}
+
+body.page-about .footer {
+  margin-top: 0 !important;
+}
+
+/* Same background stack as .contact-page on Contact us */
+.about-pro-hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--nav-h, 72px) + 2rem) 2rem 2rem;
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.55));
+  overflow: hidden;
+}
+
+.about-pro-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.75) 100%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.about-pro-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.45) 100%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.about-container {
+  position: relative;
+  z-index: 2;
+  max-width: 52rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  color: #ffffff;
+}
+
+/* ── Navbar: transparent + white at top; white bar + black on scroll ── */
+body.page-about .navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0 clamp(1.25rem, 4vw, 3.75rem);
+  min-height: var(--nav-h);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2100;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #ffffff !important;
+  transition: background 0.35s ease, box-shadow 0.35s ease, color 0.25s ease;
+}
+
+body.page-about .navbar:not(.scrolled):not(:hover) .logo,
+body.page-about .navbar:not(.scrolled):not(:hover) .nav-main > ul > li > a:not(.active),
+body.page-about .navbar:not(.scrolled):not(:hover) .icons,
+body.page-about .navbar:not(.scrolled):not(:hover) .nav-icon-link,
+body.page-about .navbar:not(.scrolled):not(:hover) .icons i {
+  color: #ffffff !important;
+  filter: none !important;
+}
+
+body.page-about .navbar:not(.scrolled) .nav-toggle {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+}
+
+body.page-about .navbar.scrolled {
+  background: #ffffff !important;
+  color: #000000 !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+body.page-about .navbar:hover {
+  background: #ffffff !important;
+  color: #000000 !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+body.page-about .navbar.scrolled .logo,
+body.page-about .navbar.scrolled .nav-main > ul > li > a,
+body.page-about .navbar.scrolled .icons,
+body.page-about .navbar.scrolled .nav-icon-link,
+body.page-about .navbar.scrolled .icons i {
+  color: #000000 !important;
+  filter: none !important;
+}
+
+body.page-about .navbar:hover .logo,
+body.page-about .navbar:hover .nav-main > ul > li > a,
+body.page-about .navbar:hover .icons,
+body.page-about .navbar:hover .nav-icon-link,
+body.page-about .navbar:hover .icons i {
+  color: #000000 !important;
+  filter: none !important;
+}
+
+body.page-about .navbar.scrolled .nav-toggle {
+  background: #ebe8e4 !important;
+  color: #000000 !important;
+}
+
+/* Active nav link — same pink underline as Contact */
+body.page-about .nav-main ul li a.active {
+  color: var(--color-accent, #b76e79) !important;
+  border-bottom: 2px solid var(--color-accent, #b76e79) !important;
+  border-bottom-color: var(--color-accent, #b76e79) !important;
+  padding-bottom: 0.2rem;
+}
+
+body.page-about .navbar.scrolled .nav-main ul li a.active {
+  color: var(--color-accent, #b76e79) !important;
+  border-bottom-color: var(--color-accent, #b76e79) !important;
+}
+
+/* Shop dropdown — match home page */
+body.page-about .nav-item-shop {
+  position: relative;
+}
+
+body.page-about .nav-item-shop::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 16px;
+}
+
+body.page-about .dropdown-menu {
+  background: var(--color-surface, #fff);
+  border: 1px solid rgba(28, 26, 25, 0.06);
+  box-shadow: var(--shadow-card, 0 12px 40px rgba(28, 26, 25, 0.12));
+}
+
+body.page-about .dropdown-menu a {
+  color: var(--color-text, #1c1a19) !important;
+  background: transparent !important;
+}
+
+body.page-about .dropdown-menu a:hover,
+body.page-about .dropdown-menu a:focus-visible {
+  background: var(--color-accent, #b76e79) !important;
+  color: #ffffff !important;
+}
+
+/* ── Page text: all white ── */
+.about-pro-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-ui), 'DM Sans', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-bottom: 1.25rem;
+}
+
+.about-pro-eyebrow::before,
+.about-pro-eyebrow::after {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.about-pro-hero h1 {
+  font-family: var(--font-display), 'Playfair Display', serif;
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  font-style: italic;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 0 0 1rem;
+}
+
+.about-pro-lead,
+.about-pro-text p {
+  font-family: var(--font-ui), 'DM Sans', sans-serif;
+  font-weight: 300;
+  color: #ffffff;
+}
+
+.about-pro-lead {
+  font-size: 0.95rem;
+  line-height: 1.9;
+  max-width: 36rem;
+  margin: 0 0 2rem;
+}
+
+.about-pro-text {
+  max-width: 34rem;
+  margin-bottom: 2.5rem;
+}
+
+.about-pro-text p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0 0 0.9rem;
+}
+
+.about-pro-text p:last-child {
+  margin-bottom: 0;
+}
+
+.about-pro-divider {
+  width: 48px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.5);
+  margin: 0 0 2rem;
+}
+
+/* Uses .btn .btn--primary / .btn--ghost from Home.css (same as hero) */
+.about-pro-links.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: flex-start;
+}
+
+@keyframes about-fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.about-pro-eyebrow { animation: about-fade-up 0.6s 0.1s ease both; }
+.about-pro-hero h1 { animation: about-fade-up 0.6s 0.2s ease both; }
+.about-pro-lead { animation: about-fade-up 0.6s 0.32s ease both; }
+.about-pro-text { animation: about-fade-up 0.6s 0.42s ease both; }
+.about-pro-divider { animation: about-fade-up 0.6s 0.5s ease both; }
+.about-pro-links { animation: about-fade-up 0.6s 0.58s ease both; }
+
+@media (max-width: 600px) {
+  .about-pro-hero {
+    padding: calc(var(--nav-h, 72px) + 1.5rem) 1rem 1.5rem;
+  }
+
+  .about-pro-hero h1 {
+    font-size: 2.4rem;
+  }
+
+  .about-pro-links {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .about-pro-links.hero__actions .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  body.page-about .navbar {
+    display: grid;
+    grid-template-columns: 40px 1fr auto;
+    padding: 0 0.65rem;
+  }
+
+  .about-pro-hero h1 {
+    font-size: 1.65rem;
+  }
+
+  .about-pro-eyebrow {
+    font-size: 0.58rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .about-pro-lead {
+    font-size: 0.78rem;
+    line-height: 1.65;
+    margin-bottom: 1.25rem;
+  }
+
+  .about-pro-text p {
+    font-size: 0.72rem;
+    line-height: 1.55;
+    margin-bottom: 0.65rem;
+  }
+
+  .about-pro-links.hero__actions .btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.65rem;
+  }
+}
