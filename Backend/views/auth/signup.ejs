@@ -1,0 +1,33 @@
+<%- include("../partials/head", {
+  title: "Create account · Noir Perfume",
+  bodyClass: "page-auth",
+  cssFiles: ["shop.css", "Common.css"]
+}) %>
+
+<%- include("../partials/navbar-auth", { activePage: "signup" }) %>
+
+<main class="auth-page">
+  <div class="auth-card">
+    <h1>Create account</h1>
+    <p>Create your Noir Perfume account to track orders and checkout faster.</p>
+
+    <%- include("../partials/messages") %>
+
+    <form id="signupForm" action="/auth/signup" method="POST">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" required autocomplete="name">
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required autocomplete="email">
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required autocomplete="new-password" minlength="8" placeholder="Letters and numbers, 8+ characters">
+
+      <button type="submit">Sign up</button>
+    </form>
+
+    <p class="auth-alt">Already have an account? <a href="/auth/login">Sign in</a></p>
+  </div>
+</main>
+
+<%- include("../partials/footer", { jsFiles: ["auth.js", "home.js"] }) %>
