@@ -1,0 +1,23 @@
+<header class="navbar scrolled navbar--auth">
+  <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-auth-main">
+    <i class="fa-solid fa-bars" aria-hidden="true"></i>
+  </button>
+
+  <a href="/" class="logo">Noir perfume</a>
+
+  <nav class="nav-main nav-main--auth" id="nav-auth-main" aria-label="Primary">
+    <ul>
+      <li><a href="/" class="<%= typeof activePage !== 'undefined' && activePage === 'home' ? 'active' : '' %>">Home</a></li>
+      <li><a href="/shop" class="<%= typeof activePage !== 'undefined' && activePage === 'shop' ? 'active' : '' %>">Shop</a></li>
+      <li><a href="/about" class="<%= typeof activePage !== 'undefined' && activePage === 'about' ? 'active' : '' %>">About us</a></li>
+      <li><a href="/contact" class="<%= typeof activePage !== 'undefined' && activePage === 'contact' ? 'active' : '' %>">Contact</a></li>
+      <% if (typeof activePage !== 'undefined' && activePage === 'login') { %>
+        <li><a href="/auth/signup">Sign up</a></li>
+      <% } else { %>
+        <li><a href="/auth/login">Sign in</a></li>
+      <% } %>
+    </ul>
+  </nav>
+
+  <div class="nav-backdrop" id="nav-backdrop" aria-hidden="true"></div>
+</header>

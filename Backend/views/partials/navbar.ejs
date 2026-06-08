@@ -1,0 +1,83 @@
+<header class="navbar <%= typeof navbarClass !== 'undefined' ? navbarClass : '' %>">
+  <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-main">
+    <i class="fa-solid fa-bars" aria-hidden="true"></i>
+  </button>
+
+  <a href="/" class="logo">Noir perfume</a>
+
+  <nav class="nav-main" id="nav-main" aria-label="Primary">
+    <div class="nav-drawer-tools nav-drawer-tools--top">
+      <button type="button" class="nav-drawer-search" id="nav-drawer-search" aria-label="Search products">
+        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+        <span>Search products</span>
+      </button>
+    </div>
+
+    <ul>
+      <li><a href="/" class="<%= typeof activePage !== 'undefined' && activePage === 'home' ? 'active' : '' %>">Home</a></li>
+
+      <li class="nav-item-shop">
+        <a href="/shop" class="<%= typeof activePage !== 'undefined' && activePage === 'shop' ? 'active' : '' %>">Shop</a>
+        <div class="dropdown-menu dropdown-menu--horizontal">
+          <a href="/shop">Shop all</a>
+          <a href="/shop?category=men">For men</a>
+          <a href="/shop?category=women">For women</a>
+          <a href="/shop?category=unisex">Unisex</a>
+          <a href="/shop?brand=chanel">Chanel</a>
+          <a href="/shop?brand=dior">Dior</a>
+          <a href="/shop?brand=boss">Boss</a>
+        </div>
+      </li>
+
+      <li><a href="/#flash-sale">Flash sale</a></li>
+      <li><a href="/about" class="<%= typeof activePage !== 'undefined' && activePage === 'about' ? 'active' : '' %>">About us</a></li>
+      <li><a href="/contact" class="<%= typeof activePage !== 'undefined' && activePage === 'contact' ? 'active' : '' %>">Contact</a></li>
+
+      <% if (user) { %>
+        <li class="nav-drawer-only"><a href="/orders/my-orders" class="<%= typeof activePage !== 'undefined' && activePage === 'orders' ? 'active' : '' %>">My orders</a></li>
+      <% } %>
+
+      <% if (user && (user.role === "admin" || user.role === "superadmin")) { %>
+        <li><a href="/admin" class="<%= typeof activePage !== 'undefined' && activePage === 'admin' ? 'active' : '' %>">Admin</a></li>
+      <% } %>
+    </ul>
+
+    <div class="nav-drawer-tools nav-drawer-tools--bottom">
+      <div class="currency-switcher nav-drawer-currency" aria-label="Currency">
+        <button type="button" class="currency-btn" data-currency="LE" aria-pressed="false" title="Egyptian Pound">LE</button>
+        <button type="button" class="currency-btn active" data-currency="USD" aria-pressed="true" title="US Dollar">$</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="icons">
+    <div class="icons-desktop-tools">
+      <div class="currency-switcher" aria-label="Currency">
+        <button type="button" class="currency-btn" data-currency="LE" aria-pressed="false" title="Egyptian Pound">LE</button>
+        <button type="button" class="currency-btn active" data-currency="USD" aria-pressed="true" title="US Dollar">$</button>
+      </div>
+
+      <i class="fa-solid fa-magnifying-glass nav-search-icon" aria-hidden="true" role="button" tabindex="0" aria-label="Search"></i>
+    </div>
+
+    <div class="icons-actions">
+      <% if (user) { %>
+        <a href="/orders/my-orders" class="nav-icon-link nav-orders-link" aria-label="My orders"><i class="fa-regular fa-clipboard" aria-hidden="true"></i></a>
+        <a href="/auth/logout" class="nav-icon-link nav-icon-logout" aria-label="Logout"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i></a>
+      <% } else { %>
+        <a href="/auth/login" class="nav-icon-link" aria-label="Sign in"><i class="fa-regular fa-user" aria-hidden="true"></i></a>
+      <% } %>
+
+      <span id="fav-drawer-trigger" class="nav-icon-link nav-fav-trigger" role="button" tabindex="0" aria-label="Favorites">
+        <i class="fa-regular fa-heart" aria-hidden="true"></i>
+      </span>
+
+      <span class="cart-icon-wrap" role="button" tabindex="0" aria-label="Open shopping cart">
+        <i class="fa-solid fa-bag-shopping" id="cart-icon-home" aria-hidden="true"></i>
+        <span class="cart-count-badge" id="cart-count">0</span>
+      </span>
+    </div>
+  </div>
+
+  <div class="nav-backdrop" id="nav-backdrop" aria-hidden="true"></div>
+</header>
