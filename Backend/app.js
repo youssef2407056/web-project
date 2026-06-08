@@ -53,6 +53,8 @@ if (!process.env.SESSION_SECRET && isProduction) {
 
 app.set("trust proxy", 1);
 
+app.set("trust proxy", 1);
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "noir_secret_key",
