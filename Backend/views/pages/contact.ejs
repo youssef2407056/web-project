@@ -1,0 +1,55 @@
+<%- include("../partials/head", {
+  title: "Contact us · Noir Perfume",
+  bodyClass: "page-contact",
+  cssFiles: ["Common.css", "Home.css", "contactus.css"]
+}) %>
+
+<%- include("../partials/navbar", { activePage: "contact", navbarClass: "scrolled" }) %>
+
+<main class="contact-page">
+  <div class="contact-page__inner">
+    <section class="contact-page__intro" aria-labelledby="contact-intro-heading">
+      <h1 id="contact-intro-heading">Contact us</h1>
+      <p>For questions, order help, or fragrance advice, reach out anytime—we typically reply within one business day.</p>
+
+      <div class="contact-page__detail">
+        <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+        <div>
+          <h2>Address</h2>
+          <p>MISR International University, Obour, Cairo, Egypt</p>
+        </div>
+      </div>
+
+      <div class="contact-page__detail">
+        <i class="fa-solid fa-phone" aria-hidden="true"></i>
+        <div>
+          <h2>Phone</h2>
+          <p>01030759424</p>
+        </div>
+      </div>
+
+      <div class="contact-page__detail">
+        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+        <div>
+          <h2>Email</h2>
+          <p>sara.abdullah@miuegypt.edu.eg</p>
+        </div>
+      </div>
+
+      <div class="contact-page__detail">
+        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+        <div>
+          <h2>WhatsApp</h2>
+          <p>01030759424</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<%- include("../partials/searchModal") %>
+<%- include("../partials/cartDrawer") %>
+
+<%- include("../partials/footer", {
+  jsFiles: ["products-catalog.js", "shop.js", "quick-view-modal.js", "nav-search.js", "home.js"]
+}) %>
